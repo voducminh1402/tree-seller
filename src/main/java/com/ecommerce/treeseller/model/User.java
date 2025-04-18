@@ -1,9 +1,34 @@
 package com.ecommerce.treeseller.model;
 
+import com.ecommerce.treeseller.enums.UserStatus;
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.time.Instant;
+import java.util.UUID;
+
+@Entity
+@Table(name = "\"user\"")
+@Data
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
-    private Boolean isActiveOk;
+
+    private UserStatus status;
+
+    private Instant createdTime;
+    private Instant updatedTime;
+    private String updatedBy;
 }

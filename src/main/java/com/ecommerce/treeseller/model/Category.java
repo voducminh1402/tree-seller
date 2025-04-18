@@ -1,21 +1,28 @@
 package com.ecommerce.treeseller.model;
 
+import com.ecommerce.treeseller.enums.CategoryStatus;
+import jakarta.persistence.*;
+import lombok.Data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Set;
+import java.util.UUID;
 
-@Entity(name = "category")
-@Getter
-@Setter
+@Entity
+@Table(name = "category")
+@Data
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
+
+    @Column(nullable = false, columnDefinition = "VARCHAR(200)")
     private String name;
-    private String description;
-    private Boolean isActive;
+
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
+    private CategoryStatus status;
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private Set<Product> products;
 }
